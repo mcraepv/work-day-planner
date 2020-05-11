@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  //updates times
   var time;
   function updateTime() {
     time = moment();
@@ -10,6 +11,8 @@ $(document).ready(function () {
   console.log(today);
   updateTime();
   var timeSlots = [];
+
+  //function checking time against time blocks
   $(".input-group-text").each(function () {
     var hourID = $(this).attr("id");
     var timeSlot = moment();
@@ -22,16 +25,18 @@ $(document).ready(function () {
     thisInput = $(this).parent().next();
     function inputTimeChecker() {
       if (timeSlot.isBefore(time) && slotHour !== thisHour) {
-        thisInput.attr("class", "bg-secondary form-control text-white");
+        thisInput.attr("class", "past form-control");
       } else if (slotHour === thisHour) {
-        thisInput.attr("class", "bg-primary  form-control text-white");
+        thisInput.attr("class", "present form-control");
       } else if (timeSlot.isAfter(time)) {
-        thisInput.attr("class", "bg-success form-control text-white");
+        thisInput.attr("class", "future form-control");
       }
       setTimeout(inputTimeChecker, 60000);
     }
     inputTimeChecker();
   });
+
+  //enables event saving
   var events = [];
   var savedEvents = JSON.parse(localStorage.getItem("savedEvents"));
   if (savedEvents !== null) {
